@@ -2,16 +2,19 @@
 var db = function(database, table) {
 	
 	var database = Titanium.Database.open(database);
+	var db_schema = [];
 	
 	var execute = function(sql, data) {
 		if(!this.enableDebug) {
 			console.log(sql);
 			console.log(data);
 		}
-		database.execute(sql, data);
+		return database.execute(sql, data);
 	}
 	
 	var createTable = function(schema) {
+		db_schema = schema;
+		
 		var sql = 'CREATE TABLE ' + table + ' (';
 		sql += "\n\tid INTEGER PRIMARY KEY";
 		for(var field in schema) {
@@ -47,7 +50,18 @@ var db = function(database, table) {
 		for(var condition in conditions) {
 			sql += ' AND ' + condition + ' = ' + conditions[condition];
 		}
-		execute(sql);
+		var rows = execute(sql);
+		var output_rows = [];
+		while (rows.isValidRow()) {
+			var output_row = {};
+			for(columns in db_schema) {
+				output_row[db_schema[columns]] = rows.fieldByName(db_schema[columns].toUpperCase());
+			}
+			output_rows.push(output_row);
+			rows.next();
+		}
+
+		return output_rows;
 	}
 	
 	var insertQuery = function(data) {
@@ -110,7 +124,7 @@ var db = function(database, table) {
 			}
 		},
 		find: function(fields, conditions) {
-			selectQuery(fields, conditions);
+			return selectQuery(fields, conditions);
 		}
 	}	
 }

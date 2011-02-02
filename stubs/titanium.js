@@ -7,11 +7,17 @@ Titanium.RowObject = function() {
 	var fakeData = [
 		{
 			id: 1,
-			name: 'James'
+			species: 'James',
+			weight: 'big',
+			latlong: '123123',
+			image: 'image.jpg'
 		},
 		{
 			id: 2,
-			name: 'Andy'
+			species: 'James',
+			weight: 'big',
+			latlong: '123123',
+			image: 'image.jpg'
 		}
 	];
 	
