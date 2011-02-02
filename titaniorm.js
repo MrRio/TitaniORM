@@ -37,8 +37,18 @@ var db = function(database, table) {
 	}
 	
 	var selectQuery = function(fields, conditions) {
-		var sql = 'SELECT * FROM ' + table + ' WHERE 1=1';
-		//sql += ' AND field=value';
+		var field_sql;
+		if(fields == 'all' || fields == null) {
+			field_sql = '*';
+		} else {
+			field_sql = fields.join(', ');
+		}
+		var sql = 'SELECT ' + field_sql + ' FROM ' + table + ' WHERE 1=1';
+		
+		for(var condition in conditions) {
+			sql += ' AND ' + condition + ' = ' + conditions[condition];
+		}
+		execute(sql);
 	}
 	
 	var insertQuery = function(data) {
@@ -101,18 +111,35 @@ var db = function(database, table) {
 			}
 		},
 		find: function(fields, conditions) {
-			
+			selectQuery(fields, conditions);
 		}
 	}	
 }
 
 //db.execute('INSERT INTO scrapbooks (ID, LABEL, IMAGE, GPS, ORDINAL) VALUES(?,?,?,?,?)'
 
+
+// Examples
+// Connect to table. Database, table
 var table = new db('fishingscrapbook', 'scrapbook');
-table.enableDebug = true;
-table.schema(['type', 'name', 'thingy', 'something']);
-var output = table.find('all', { id: 1});
-table.save({ id: 1, name: 'Andy'});
+
+// Initialise schema, this creates a database
+table.schema(['species', 'weight', 'lat_long', 'image']); 
+
+// Find all
+var output = table.find();
+
+// Find by field
+var output = table.find(null, { id: 1 });
+
+// Select just a few columns
+var output = table.find(['species', 'weight']);
+
+// New row
+table.save({ species: 'Andy', weight: '200lbs'}); 
+
+// Update existing row
+table.save({ id: 1, species: 'James'});
 
 
 /*
