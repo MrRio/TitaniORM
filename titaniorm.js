@@ -43,6 +43,7 @@ var db = function(database, table) {
 	
 	var insertQuery = function(data) {
 		var sql = 'INSERT INTO ' + table + ' (';
+		
 		var i = 0;
 		var values = [];
 		var values_sql = '';
@@ -65,8 +66,20 @@ var db = function(database, table) {
 	var updateQuery = function(id, data) {
 		var sql = 'UPDATE ' + table + ' SET ';
 		
-		sql += 'column = ?,';
+		var i = 0;
+		var values = [];
+		for(var column in data) {
+			if(i != 0) {
+				sql += ', ';
+			}
+			sql += column + ' = ?';
+			values.push(data[column]);
+			i ++;
+		}
+		
 		sql += ' WHERE id = ' + id;
+		
+		execute(sql, values);
 	}
 	
 	return {
@@ -99,7 +112,7 @@ var table = new db('fishingscrapbook', 'scrapbook');
 table.enableDebug = true;
 table.schema(['type', 'name', 'thingy', 'something']);
 var output = table.find('all', { id: 1});
-table.save({ name: 'Andy'});
+table.save({ id: 1, name: 'Andy'});
 
 
 /*
