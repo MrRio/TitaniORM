@@ -1,15 +1,14 @@
 
 var db = function(database, table) {
 	
-	var debug = function(message) {
-		if(!this.enableDebug) {
-			console.log(message);
-		}
-	}
+	var database = Titanium.Database.open(database);
 	
 	var execute = function(sql, data) {
-		debug(sql);
-		debug(data);
+		if(!this.enableDebug) {
+			console.log(sql);
+			console.log(data);
+		}
+		database.execute(sql, data);
 	}
 	
 	var createTable = function(schema) {
@@ -20,7 +19,7 @@ var db = function(database, table) {
 		}
 		sql += "\n);";
 		
-		debug(sql);
+		execute(sql);
 	}
 	
 	var updateTable = function(schema) {
