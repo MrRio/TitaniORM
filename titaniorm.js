@@ -1,6 +1,8 @@
 
 var db = function(database, table) {
 	
+	// Private 
+	
 	var database = Titanium.Database.open(database);
 	var db_schema = [];
 	
@@ -15,7 +17,7 @@ var db = function(database, table) {
 	var createTable = function(schema) {
 		db_schema = schema;
 		
-		var sql = 'CREATE TABLE ' + table + ' (';
+		var sql = 'CREATE TABLE IF NOT EXISTS ' + table + ' (';
 		sql += "\n\tid INTEGER PRIMARY KEY";
 		for(var field in schema) {
 			sql += ",\n\t" + schema[field] + ' TEXT'; //SQLite has dynamic typing, so everything can be text :D
@@ -25,6 +27,8 @@ var db = function(database, table) {
 		execute(sql);
 	}
 	
+	
+	// @TODO: Finish this and run when table already exists and schema differs
 	var updateTable = function(schema) {
 		var sql = 'BEGIN TRANSACTION;';
 		sql += 'CREATE TEMPORARY TABLE ' + table + '_backup(a,b);';
@@ -105,6 +109,12 @@ var db = function(database, table) {
 		execute(sql, values);
 	}
 	
+	function deleteQuery(id) {
+		var sql = 'DELETE FROM ' + table + ' WHERE id = ?';
+		
+		execute(sql, [id]);
+	}
+	
 	return {
 		
 		// Public properties
@@ -128,24 +138,3 @@ var db = function(database, table) {
 		}
 	}	
 }
-
-//db.execute('INSERT INTO scrapbooks (ID, LABEL, IMAGE, GPS, ORDINAL) VALUES(?,?,?,?,?)'
-
-
-
-
-/*
-
-var db = Titanium.Database.open('fishingscrapbook');
-var rows = db.execute('SELECT * FROM scrapbooks');
-var newOrdinal = 0;
-while (rows.isValidRow()) {
-	var ordinal = rows.fieldByName('ORDINAL');
-	if (ordinal > newOrdinal) {
-		newOrdinal = ordinal;
-	}
-	rows.next();
-}
-
-
-*/

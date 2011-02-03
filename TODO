@@ -1,0 +1,3 @@
+* Error handling
+* Nicer API with beforeSave and afterSave hooks for each table
+* Table structure modification
