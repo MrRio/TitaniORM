@@ -1,7 +1,9 @@
 TitaniORM 0.1
 =============
 
-Not ready for human consumption
+Not ready for human consumption.
+
+Use databases in Titanium Mobile applications without writing any SQL.
 
 Examples
 --------
