@@ -42,7 +42,18 @@ var db = function(database, table) {
 		sql += 'COMMIT;';
 	}
 	
-	var selectQuery = function(fields, conditions) {
+	var selectQuery = function(fields, params) {
+		var conditions;
+		var order = 'ID ASC';
+		if(params != undefined) {
+			if(params.conditions != undefined) {
+				conditions = params.conditions;
+			}
+			if(params.order != undefined) {
+				order = params.order;
+			}
+		} 
+		
 		var field_sql;
 		if(fields == 'all' || fields == null) {
 			field_sql = '*';
@@ -50,10 +61,11 @@ var db = function(database, table) {
 			field_sql = fields.join(', ');
 		}
 		var sql = 'SELECT ' + field_sql + ' FROM ' + table + ' WHERE 1=1';
-		
+		// @TODO: Use prepared queries on conditions to prevent injection
 		for(var condition in conditions) {
 			sql += ' AND ' + condition + ' = ' + conditions[condition];
 		}
+		sql += ' ORDER BY ' + order.toUpperCase();
 		var rows = execute(sql);
 		var output_rows = [];
 		while (rows.isValidRow()) {
