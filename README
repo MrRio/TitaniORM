@@ -4,6 +4,7 @@ Not ready for human consumption
 Examples
 --------
 
+// Examples
 // Connect to table. Database, table
 var table = new db('fishingscrapbook', 'scrapbook');
 
@@ -14,7 +15,11 @@ table.schema(['species', 'weight', 'lat_long', 'image']);
 var output = table.find();
 
 // Find by field
-var output = table.find(null, { id: 1 });
+var output = table.find(null, { conditions: {id: 1} });
+
+// Order
+var output = table.find(null, { conditions: {id: 1}, order: 'species ASC' });
+
 
 // Select just a few columns
 var output = table.find(['species', 'weight']);
