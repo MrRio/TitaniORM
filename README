@@ -6,28 +6,26 @@ Examples
 
 // Examples
 // Connect to table. Database, table
-var table = new db('fishingscrapbook', 'scrapbook');
+var users = new db('database', 'users');
 
 // Initialise schema, this creates a database
-table.schema(['species', 'weight', 'lat_long', 'image']); 
+users.schema(['first_name', 'last_name', 'password', 'picture']); 
 
 // Find all
-var output = table.find();
+var output = users.find();
 
 // Find by field
-var output = table.find(null, { conditions: {id: 1} });
+var one_user = users.find(null, { conditions: {id: 1} });
 
 // Order
-var output = table.find(null, { conditions: {id: 1}, order: 'species ASC' });
+var all_users = users.find(null, { order: 'species ASC' });
 
 
 // Select just a few columns
-var output = table.find(['species', 'weight']);
-
-console.log(output);
+var all_users = users.find(['first_name', 'last_name']);
 
 // New row
-table.save({ species: 'Andy', weight: '200lbs'}); 
+users.save({ first_name: 'James', last_name: 'Hall' }); 
 
 // Update existing row
-table.save({ id: 1, species: 'James'});
+users.save({ id: 1, password: 'New password'});
