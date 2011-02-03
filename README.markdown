@@ -1,5 +1,7 @@
-Not ready for human consumption
+TitaniORM 0.1
+=============
 
+Not ready for human consumption
 
 Examples
 --------
