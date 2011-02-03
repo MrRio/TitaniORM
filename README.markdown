@@ -33,3 +33,6 @@ Examples
 
 	// Update existing row
 	users.save({ id: 1, password: 'New password'});
+	
+	// Delete user with id: 1
+	users.delete(1); 

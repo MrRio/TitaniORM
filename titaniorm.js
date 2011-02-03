@@ -147,6 +147,9 @@ var db = function(database, table) {
 		},
 		find: function(fields, conditions) {
 			return selectQuery(fields, conditions);
+		},
+		delete: function(id) {
+			return deleteQuery(id);
 		}
 	}	
 }
