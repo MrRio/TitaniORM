@@ -8,7 +8,7 @@ var db = function(database, table) {
 	var db_schema = [];
 	
 	var escapeSql = function(sql) {
-		Ti.API.info(sql);
+		//Ti.API.info(sql);
 		
 		if(sql != undefined) {
 			return sql.toString().replace(/"/g, '\\"');
@@ -120,6 +120,10 @@ var db = function(database, table) {
 		sql += values_sql;
 		sql += ');';
 		executeSql(sql, values);
+		
+		
+		
+		return db_instance.lastInsertRowId;
 	}
 	
 	var updateQuery = function(id, data) {
@@ -139,6 +143,7 @@ var db = function(database, table) {
 		sql += ' WHERE id = ' + id;
 				
 		executeSql(sql);
+		return id;
 	}
 	
 	function deleteQuery(id) {
