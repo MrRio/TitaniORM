@@ -8,7 +8,12 @@ var db = function(database, table) {
 	var db_schema = [];
 	
 	var escapeSql = function(sql) {
-		return sql.replace(/"/g, '\\"');
+		Ti.API.info(sql);
+		
+		if(sql != undefined) {
+			return sql.toString().replace(/"/g, '\\"');
+		}
+		//return sql.replace(/"/g, '\\"');
 	}
 	
 	var executeSql = function(sql, data) {
@@ -126,14 +131,14 @@ var db = function(database, table) {
 			if(i != 0) {
 				sql += ', ';
 			}
-			sql += column + ' = ?';
+			sql += column + ' = "' + escapeSql(data[column]) + '"';
 			values.push(data[column]);
 			i ++;
 		}
 		
 		sql += ' WHERE id = ' + id;
-		
-		executeSql(sql, values);
+				
+		executeSql(sql);
 	}
 	
 	function deleteQuery(id) {
