@@ -3,15 +3,30 @@ var db = function(database, table) {
 	
 	// Private 
 	
-	var database = Titanium.Database.open(database);
+	var db_instance = Titanium.Database.open('users');
+	
 	var db_schema = [];
 	
-	var execute = function(sql, data) {
-		if(!this.enableDebug) {
-			console.log(sql);
-			console.log(data);
+	var escapeSql = function(sql) {
+		return sql.replace(/"/g, '\\"');
+	}
+	
+	var executeSql = function(sql, data) {
+		Ti.API.info(sql);
+
+		if(data != undefined && data.length > 0) {			
+			// Fake prepared queries because of Ti bug
+			
+			var final_sql = sql;
+			for(var value in data) {
+				final_sql = final_sql.replace('?', '"' + escapeSql(data[value]) + '"');
+			}
+			
+			Ti.API.info(final_sql);
+			db_instance.execute(final_sql);
+		} else {
+			db_instance.execute(sql);
 		}
-		return database.execute(sql, data);
 	}
 	
 	var createTable = function(schema) {
@@ -24,7 +39,7 @@ var db = function(database, table) {
 		}
 		sql += "\n);";
 		
-		execute(sql);
+		executeSql(sql);
 	}
 	
 	
@@ -66,7 +81,7 @@ var db = function(database, table) {
 			sql += ' AND ' + condition + ' = ' + conditions[condition];
 		}
 		sql += ' ORDER BY ' + order.toUpperCase();
-		var rows = execute(sql);
+		var rows = executeSql(sql);
 		var output_rows = [];
 		while (rows.isValidRow()) {
 			var output_row = {};
@@ -99,7 +114,7 @@ var db = function(database, table) {
 		sql += ') VALUES (';
 		sql += values_sql;
 		sql += ');';
-		execute(sql, values);
+		executeSql(sql, values);
 	}
 	
 	var updateQuery = function(id, data) {
@@ -118,13 +133,13 @@ var db = function(database, table) {
 		
 		sql += ' WHERE id = ' + id;
 		
-		execute(sql, values);
+		executeSql(sql, values);
 	}
 	
 	function deleteQuery(id) {
 		var sql = 'DELETE FROM ' + table + ' WHERE id = ?';
 		
-		execute(sql, [id]);
+		executeSql(sql, [id]);
 	}
 	
 	return {
@@ -136,6 +151,7 @@ var db = function(database, table) {
 		
 		// Checks the schema and modifies it to the one passed
 		schema: function(schema) {
+			Ti.API.notice('hello');
 			createTable(schema);
 		},
 		save: function(data) {
@@ -148,7 +164,7 @@ var db = function(database, table) {
 		find: function(fields, conditions) {
 			return selectQuery(fields, conditions);
 		},
-		delete: function(id) {
+		del: function(id) {
 			return deleteQuery(id);
 		}
 	}	
