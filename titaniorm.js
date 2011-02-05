@@ -28,9 +28,9 @@ var db = function(database, table) {
 			}
 			
 			Ti.API.info(final_sql);
-			db_instance.execute(final_sql);
+			return db_instance.execute(final_sql);
 		} else {
-			db_instance.execute(sql);
+			return db_instance.execute(sql);
 		}
 	}
 	
