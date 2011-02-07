@@ -3,7 +3,7 @@ var db = function(database, table) {
 	
 	// Private 
 	
-	var db_instance = Titanium.Database.open('users');
+	var db_instance = Titanium.Database.open(database);
 	
 	var db_schema = [];
 	
