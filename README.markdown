@@ -35,4 +35,4 @@ Examples
 	users.save({ id: 1, password: 'New password'});
 	
 	// Delete user with id: 1
-	users.delete(1); 
+	users.del(1); 
