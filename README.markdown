@@ -1,5 +1,5 @@
-TitaniORM 0.1
-=============
+TitaniORM
+========
 
 Not ready for human consumption.
 
