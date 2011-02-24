@@ -85,11 +85,12 @@ var db = function(database, table) {
 		for(var condition in conditions) {
 			sql += ' AND ' + condition + ' = ' + conditions[condition];
 		}
-		sql += ' ORDER BY ' + order.toUpperCase();
+		sql += ' ORDER BY ' + order;
 		var rows = executeSql(sql);
 		var output_rows = [];
 		while (rows.isValidRow()) {
 			var output_row = {};
+			output_row['id'] = rows.fieldByName('ID');
 			for(columns in db_schema) {
 				output_row[db_schema[columns]] = rows.fieldByName(db_schema[columns].toUpperCase());
 			}
