@@ -1,4 +1,3 @@
-
 var db = function(database, table) {
 	
 	// Private 
@@ -83,7 +82,7 @@ var db = function(database, table) {
 		var sql = 'SELECT ' + field_sql + ' FROM ' + table + ' WHERE 1=1';
 		// @TODO: Use prepared queries on conditions to prevent injection
 		for(var condition in conditions) {
-			sql += ' AND ' + condition + ' = ' + conditions[condition];
+			sql += ' AND ' + condition + ' = "' + conditions[condition] +'"';
 		}
 		sql += ' ORDER BY ' + order;
 		var rows = executeSql(sql);
