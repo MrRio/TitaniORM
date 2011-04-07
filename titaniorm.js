@@ -1,9 +1,8 @@
 
 var db = function(database, table) {
 	
-	// Private 
-	
-	var db_instance = Titanium.Database.open(database);
+	// Private 	
+	var db_instance = Titanium.Database.install(database);
 	
 	var db_schema = [];
 	
@@ -11,7 +10,7 @@ var db = function(database, table) {
 		//Ti.API.info(sql);
 		
 		if(sql != undefined) {
-			return sql.toString().replace(/"/g, '\\"');
+			return sql.toString().replace(/"/g, '""');
 		}
 		//return sql.replace(/"/g, '\\"');
 	}
@@ -142,7 +141,8 @@ var db = function(database, table) {
 		}
 		
 		sql += ' WHERE id = ' + id;
-				
+		
+		Ti.API.notice(sql);		
 		executeSql(sql);
 		return id;
 	}
