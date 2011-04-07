@@ -1,7 +1,9 @@
+
 var db = function(database, table) {
 	
-	// Private 	
-	var db_instance = Titanium.Database.install(database);
+	// Private 
+	var db_instance = Titanium.Database.open(database);
+	//var db_instance = Titanium.Database.open(database);
 	
 	var db_schema = [];
 	
@@ -9,7 +11,7 @@ var db = function(database, table) {
 		//Ti.API.info(sql);
 		
 		if(sql != undefined) {
-			return sql.toString().replace(/"/g, '""');
+			return sql.toString().replace(/"/g, '\\"');
 		}
 		//return sql.replace(/"/g, '\\"');
 	}
@@ -81,7 +83,7 @@ var db = function(database, table) {
 		var sql = 'SELECT ' + field_sql + ' FROM ' + table + ' WHERE 1=1';
 		// @TODO: Use prepared queries on conditions to prevent injection
 		for(var condition in conditions) {
-			sql += ' AND ' + condition + ' = "' + conditions[condition] +'"';
+			sql += ' AND ' + condition + ' = "' + conditions[condition] + '"';
 		}
 		sql += ' ORDER BY ' + order;
 		var rows = executeSql(sql);
@@ -141,8 +143,8 @@ var db = function(database, table) {
 		
 		sql += ' WHERE id = ' + id;
 		
-		Ti.API.notice(sql);		
-		executeSql(sql);
+		Ti.API		
+		//executeSql(sql);
 		return id;
 	}
 	
@@ -166,9 +168,9 @@ var db = function(database, table) {
 		},
 		save: function(data) {
 			if(data.id != undefined) {
-				return updateQuery(data.id, data);
+				updateQuery(data.id, data);
 			} else {
-				return insertQuery(data);
+				insertQuery(data);
 			}
 		},
 		find: function(fields, conditions) {
