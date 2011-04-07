@@ -11,7 +11,7 @@ var db = function(database, table) {
 		//Ti.API.info(sql);
 		
 		if(sql != undefined) {
-			return sql.toString().replace(/"/g, '\\"');
+			return sql.toString().replace(/"/g, '""');
 		}
 		//return sql.replace(/"/g, '\\"');
 	}
