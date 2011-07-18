@@ -143,7 +143,6 @@ var db = function(database, table) {
 		
 		sql += ' WHERE id = ' + id;
 		
-		Ti.API		
 		//executeSql(sql);
 		return id;
 	}
