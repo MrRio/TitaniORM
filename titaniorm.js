@@ -143,7 +143,6 @@ var db = function(database, table) {
 		
 		sql += ' WHERE id = ' + id;
 		
-		Ti.API		
 		//executeSql(sql);
 		return id;
 	}
@@ -168,9 +167,9 @@ var db = function(database, table) {
 		},
 		save: function(data) {
 			if(data.id != undefined) {
-				updateQuery(data.id, data);
+				return updateQuery(data.id, data);
 			} else {
-				insertQuery(data);
+				return insertQuery(data);
 			}
 		},
 		find: function(fields, conditions) {
