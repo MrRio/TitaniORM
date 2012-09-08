@@ -1,4 +1,3 @@
-
 var db = function(database, table) {
 	
 	// Private 
@@ -162,7 +161,6 @@ var db = function(database, table) {
 		
 		// Checks the schema and modifies it to the one passed
 		schema: function(schema) {
-			Ti.API.notice('hello');
 			createTable(schema);
 		},
 		save: function(data) {
